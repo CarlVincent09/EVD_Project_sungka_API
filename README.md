@@ -4,7 +4,7 @@
 
 1. Open terminal bash and go to the `server/` folder.
    ```bash
-   cp server
+   cd server
 2. Install node.js
    ```bash
    npm install
