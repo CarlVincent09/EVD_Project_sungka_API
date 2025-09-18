@@ -1,0 +1,157 @@
+body {
+  background: url("background.png") no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+}
+
+.sungka-board {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(145deg, #6e3b13, #4d2509);
+  border-radius: 60px;
+  padding: 30px 40px;
+  gap: 25px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.6), inset 0 3px 6px rgba(255,255,255,0.2);
+  border: 6px solid #2a1506;
+  margin-top: 20px;
+}
+
+.store {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #3d1f07, #1b0d03 80%);
+  box-shadow: inset -6px -6px 10px rgba(0,0,0,0.7),
+              inset 6px 6px 12px rgba(255,255,255,0.15);
+  color: #ffd27f;
+  font-weight: bold;
+  font-size: 1.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.pits {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.pit {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #4d2a0e, #1f0d04 80%);
+  box-shadow: inset -4px -4px 8px rgba(0,0,0,0.7),
+              inset 4px 4px 10px rgba(255,255,255,0.15);
+  color: #ffd27f;
+  font-weight: bold;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.pit:hover {
+  transform: scale(1.1);
+  box-shadow: inset -2px -2px 6px rgba(0,0,0,0.7),
+              inset 2px 2px 8px rgba(255,255,255,0.2),
+              0 4px 12px rgba(0,0,0,0.4);
+}
+
+.pit.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.stones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  height: 30%;
+  padding: 4px;
+}
+
+.stone {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #f4e3c1, #b88a3c);
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+.pit-count {
+  font-size: 20px;
+  color: #fff;
+  margin-top: 2px;
+  text-align: center;
+}
+
+.info {
+  margin-top: 50px;
+  text-align: center;
+  background: rgba(0,0,0,0.6);
+  padding: 46px 62px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.info p {
+  margin: 6px 0;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+button {
+ display: inline-block;
+ padding: 0.9rem 1.8rem;
+ font-size: 16px;
+ font-weight: 700;
+ color: white;
+ border: 3px solid rgb(252, 70, 100);
+ cursor: pointer;
+ position: relative;
+ background-color: transparent;
+ text-decoration: none;
+ overflow: hidden;
+ z-index: 1;
+ font-family: inherit;
+}
+
+button::before {
+ content: "";
+ position: absolute;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ background-color: rgb(252, 70, 100);
+ transform: translateX(-100%);
+ transition: all .3s;
+ z-index: -1;
+}
+
+button:hover::before {
+ transform: translateX(0);
+}

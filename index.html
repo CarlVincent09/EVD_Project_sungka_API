@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sungka Game</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  
+  <div class="info">
+    <p>Current player: <span id="current">Player 1</span></p>
+
+    <label style="display:inline-block; margin-right:16px;">
+      <input type="checkbox" id="botToggle"> Play against Bot (Player 2)
+    </label>
+
+    <label style="display:inline-block; margin-right:16px;">
+      Difficulty:
+      <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium" selected>Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </label>
+
+    <button id="reset">Reset Game</button>
+    <p id="message"></p>
+  </div>
+
+  <div class="sungka-board">
+    <div class="store left-store" id="store1">0</div>
+
+    <div class="pits">
+      <div class="row top-row" id="top-row"></div>
+      <div class="row bottom-row" id="bottom-row"></div>
+    </div>
+
+    <div class="store right-store" id="store0">0</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
