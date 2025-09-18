@@ -1,15 +1,5 @@
 # Sungka Game (with Bot API)
 
-## Project structure
-
-sungka_project/
-├─ index.html
-├─ styles.css
-├─ script.js
-└─ server/
-   ├─ package.json
-   └─ server.js
-
 ## Run server
 
 1. Open terminal bash and go to the `server/` folder.
