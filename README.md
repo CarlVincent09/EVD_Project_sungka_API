@@ -20,7 +20,7 @@ Open project root (where `index.html` is):
 
 -OR-
 
-```bash
-   python -m http.server 5500
-
+   ```bash
+      python -m http.server 5500
+   ```
 Open `http://localhost:5500` in your browser.
