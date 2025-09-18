@@ -1,4 +1,4 @@
-# Sungka Game (with Bot API)
+# Sungka Game (with Bot Opponent API)
 
 ## Run server
 
