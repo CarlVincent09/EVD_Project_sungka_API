@@ -43,11 +43,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  margin: 0 20px;
 }
 
 .row {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   gap: 25px;
 }
 
@@ -121,6 +122,78 @@ body {
   margin: 6px 0;
   margin-bottom: 20px;
   font-size: 20px;
+}
+
+.info label {
+  font-size: 1.1rem;
+  margin-right: 20px;
+  color: #e0e0e0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info input[type="checkbox"] {
+  /* Hide default checkbox */
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ff7f50; /* Coral */
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s, border-color 0.2s;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.info input[type="checkbox"]:checked {
+  background-color: #ff7f50; /* Coral */
+  border-color: #ff7f50;
+}
+
+.info input[type="checkbox"]:checked::after {
+  content: '✔';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 14px;
+}
+
+.info select {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 2px solid #ff7f50; /* Coral */
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  appearance: none; /* Remove default dropdown arrow */
+  -webkit-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 20px;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.info select:hover {
+  border-color: #ffa07a; /* Light Coral */
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.info select option {
+  background-color: #4d2509; /* Darker background for options */
+  color: #fff;
+}
+
+/* Ensure these are still inline-block for layout if desired, but flex on parent is usually better */
+.info label {
+  display: inline-flex; /* Use flex to align checkbox/select with text */
+  align-items: center;
 }
 
 button {
