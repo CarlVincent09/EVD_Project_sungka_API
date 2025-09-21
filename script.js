@@ -16,6 +16,11 @@ const resetBtn = document.getElementById("reset");
 const botToggle = document.getElementById("botToggle");
 const difficultySelect = document.getElementById("difficulty");
 
+// New modal elements
+const rulesModal = document.getElementById("rulesModal");
+const startGameBtn = document.getElementById("startGameBtn");
+const gameContainer = document.getElementById("gameContainer");
+
 // --- Hand Element for Animation ---
 const handEl = document.createElement("div");
 handEl.id = "hand";
@@ -55,20 +60,27 @@ resetBtn.addEventListener("click", () => {
 botToggle.addEventListener("change", () => {
   // If bot is enabled and it's currently bot's turn, make it move
   if (botToggle.checked && currentPlayer === 1) {
-    setTimeout(botMove, 400); // Small delay before bot moves
+    setTimeout(botMove, 400); 
   }
-  renderBoard(); // Re-render to update pit clickability
+  renderBoard(); 
+});
+
+// New: Start Game button listener
+startGameBtn.addEventListener("click", () => {
+  rulesModal.classList.add("hidden"); 
+  gameContainer.classList.remove("hidden"); 
+  renderBoard(); 
 });
 
 // --- Game Logic Functions ---
 
-// Renders the current state of the board in the UI
+// Renders the current state of the board
 function renderBoard() {
   topRow.innerHTML = "";
   bottomRow.innerHTML = "";
 
   // Player 2 (Bot/Top) pits
-  for (let i = 6; i >= 0; i--) { // Render top row from right to left to match visual layout
+  for (let i = 6; i >= 0; i--) { 
     topRow.appendChild(createPit(1, i));
   }
 
@@ -123,16 +135,16 @@ function animateMove(player, idx) {
   // Prevent moves if it's not the current player's turn, bot is thinking, or pit is empty
   if (player !== currentPlayer || isBotThinking || pits[player][idx] === 0) return;
 
-  messageEl.textContent = ""; // Clear any previous messages
+  messageEl.textContent = ""; 
 
   let stonesInHand = pits[player][idx];
-  pits[player][idx] = 0; // Empty the clicked pit
-  renderBoard(); // Update UI to show empty pit
+  pits[player][idx] = 0; 
+  renderBoard(); 
 
   let p = player; // Current player for sowing (changes during sowing)
   let i = idx; // Current pit index for sowing (changes during sowing)
   let lastP = null; // Player of the pit where the last stone landed
-  let lastI = null; // Index of the pit where the last stone landed
+  let lastI = null; // Index of the last stone landed
 
   const dropStone = () => {
     if (stonesInHand === 0) {
@@ -160,25 +172,24 @@ function animateMove(player, idx) {
       renderBoard();
       const gameOver = checkGameOver();
 
-      // If game isn't over and it's now bot's turn, make bot move
+      // If game isn't over and it's now bot's turn, make it move
       if (!gameOver && currentPlayer === 1 && botToggle.checked) {
         setTimeout(botMove, 800);
       }
 
-      handEl.style.display = "none"; // Hide the hand
-      return; // End the animation
+      handEl.style.display = "none"; 
+      return; 
     }
 
     // --- Continue Sowing ---
-    i++; // Move to the next pit/store
-
+    i++;
     if (i === 7) {
       // Reached the end of a row (potential store or switch rows)
       if (p === player) {
         // Current player's own store
         stores[player]++;
         stonesInHand--;
-        renderBoard(); // Update score display
+        renderBoard(); 
 
         lastP = "store"; // Indicate last stone potentially landed in store
 
@@ -203,22 +214,22 @@ function animateMove(player, idx) {
             }
           }, 600);
           handEl.style.display = "none";
-          return; // End sowing as an extra turn occurred
+          return; 
         }
       }
-      p = 1 - p; // Switch to the other player's side
-      i = -1; // Reset index to start from 0 on the new row in the next iteration
+      p = 1 - p; 
+      i = -1; 
     } else {
       // Landed in a regular pit
-      pits[p][i]++; // Add a stone to the pit
-      stonesInHand--; // Decrement stones in hand
-      renderBoard(); // Update UI for the pit
+      pits[p][i]++; 
+      stonesInHand--; 
+      renderBoard();
 
       lastP = p;
       lastI = i;
 
       // Move hand animation to the pit
-      const rowEl = p === 0 ? bottomRow.children[i] : topRow.children[6 - i]; // Adjust for top row's reverse rendering
+      const rowEl = p === 0 ? bottomRow.children[i] : topRow.children[6 - i];
       const rect = rowEl.getBoundingClientRect();
       handEl.style.left = rect.left + "px";
       handEl.style.top = rect.top - 50 + "px";
@@ -227,16 +238,16 @@ function animateMove(player, idx) {
       setTimeout(() => handEl.classList.remove("drop"), 200);
     }
 
-    setTimeout(dropStone, 500); // Continue sowing after a delay
+    setTimeout(dropStone, 500); 
   };
 
-  dropStone(); // Start the sowing animation
+  dropStone(); 
 }
 
-// Checks if the game is over and determines the winner
+// Checks if the game is over and determines the winner/one of the player's pit is empty
 function checkGameOver() {
-  const empty0 = pits[0].every(v => v === 0); // Check if Player 1's pits are all empty
-  const empty1 = pits[1].every(v => v === 0); // Check if Player 2's pits are all empty
+  const empty0 = pits[0].every(v => v === 0); 
+  const empty1 = pits[1].every(v => v === 0); 
 
   if (empty0 || empty1) {
     // If one side is empty, collect remaining stones from the other side
@@ -245,15 +256,15 @@ function checkGameOver() {
 
     // Set all pits to 0 after collecting for final display
     pits = [Array(7).fill(0), Array(7).fill(0)];
-    renderBoard(); // Update the board to show empty pits and final scores
+    renderBoard();
 
-    // Determine winner based on final scores
+    //winner based on final scores
     if (stores[0] > stores[1]) messageEl.textContent = "Game over! Player 1 wins!";
     else if (stores[1] > stores[0]) messageEl.textContent = "Game over! Player 2 wins!";
     else messageEl.textContent = "Game over! It's a tie!";
-    return true; // Game is over
+    return true; 
   }
-  return false; // Game is not over
+  return false; 
 }
 
 // Bot's move logic (fetches move from server)
@@ -268,13 +279,12 @@ async function botMove() {
   }
 
   isBotThinking = true; // Set flag to prevent other interactions
-  messageEl.textContent = "Bot is thinking..."; // Inform user
-
+  messageEl.textContent = "Bot is thinking..."; 
   try {
     const res = await fetch("http://localhost:3000/sungka-bot", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pits, stores, player: 1, level: currentLevel }) // Send current game state and difficulty
+      body: JSON.stringify({ pits, stores, player: 1, level: currentLevel }) 
     });
     const data = await res.json();
     const chosenPit = data.move;
@@ -282,7 +292,7 @@ async function botMove() {
     // Handle case where server indicates bot has no valid moves (-1)
     if (chosenPit === -1) {
         isBotThinking = false;
-        currentPlayer = 0; // Pass turn back to Player 1 (human)
+        currentPlayer = 0; 
         renderBoard();
         messageEl.textContent = "Bot has no valid moves. Player 1's turn.";
         return;
@@ -290,19 +300,15 @@ async function botMove() {
 
     // Animate the bot's chosen move after a short delay
     setTimeout(() => {
-      isBotThinking = false; // Reset thinking flag
-      animateMove(1, chosenPit); // Execute the bot's move
+      isBotThinking = false; 
+      animateMove(1, chosenPit); 
     }, 800);
   } catch (err) {
     console.error("Bot API error:", err);
-    isBotThinking = false; // Reset thinking flag
+    isBotThinking = false; 
     messageEl.textContent = "Bot API failed. Check server or play vs human.";
     // Fallback if API fails: switch turn to human
     currentPlayer = 0;
     renderBoard();
   }
 }
-
-
-// --- Initialize Game ---
-renderBoard(); // Draw the initial board

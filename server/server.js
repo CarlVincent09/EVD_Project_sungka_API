@@ -6,10 +6,9 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Adjustable depth for hard mode
-const HARD_DEPTH = 6; // tune: 4-6 usually OK; larger = stronger but slower
 
-// Helper function to create deep copies of game state
+const HARD_DEPTH = 6; 
+
 function cloneGame(pits, stores) {
   return {
     pits: pits.map(row => [...row]),
@@ -43,7 +42,7 @@ function simulateMove(pits, stores, player, pitIndex) {
         stones--;
         if (stones === 0) {
           extraTurn = true; // Landed exactly in own store, extra turn
-          break; // End sowing
+          break; 
         }
       }
       p = 1 - p; // Switch to the other player's row
@@ -106,21 +105,20 @@ function evaluateBoard(pits, stores, botPlayer) {
   // This encourages keeping the game alive and controlling more pits
   const botSideStones = pits[botPlayer].reduce((a,b) => a+b, 0);
   const opponentSideStones = pits[1 - botPlayer].reduce((a,b) => a+b, 0);
-  score += (botSideStones - opponentSideStones) * 0.1; // Small weight
+  score += (botSideStones - opponentSideStones) * 0.1; 
 
   return score;
 }
 
 
-// Minimax with alpha-beta pruning
+
 function minimax(pits, stores, depth, player, botPlayer, alpha, beta) {
-  // Terminal check
+  
   const termVal = evaluateTerminal(pits, stores, botPlayer);
   if (termVal !== null) {
       return termVal;
   }
 
-  // Depth limit reached
   if (depth === 0) {
       return evaluateBoard(pits, stores, botPlayer);
   }
@@ -129,41 +127,36 @@ function minimax(pits, stores, depth, player, botPlayer, alpha, beta) {
     .map((stones, idx) => (stones > 0 ? idx : null))
     .filter(idx => idx !== null);
 
-  // If no valid moves for the current player at this depth, evaluate current board
   if (moves.length === 0) {
     return evaluateBoard(pits, stores, botPlayer);
   }
 
   if (player === botPlayer) {
-    // Maximizing player (Bot)
     let value = -Infinity;
     for (let mv of moves) {
       const { pits: np, stores: ns, nextPlayer } = simulateMove(pits, stores, player, mv);
       const evalScore = minimax(np, ns, depth - 1, nextPlayer, botPlayer, alpha, beta);
       value = Math.max(value, evalScore);
       alpha = Math.max(alpha, value);
-      if (alpha >= beta) break; // Alpha-beta prune
+      if (alpha >= beta) break; 
     }
     return value;
   } else {
-    // Minimizing player (Opponent)
     let value = Infinity;
     for (let mv of moves) {
       const { pits: np, stores: ns, nextPlayer } = simulateMove(pits, stores, player, mv);
       const evalScore = minimax(np, ns, depth - 1, nextPlayer, botPlayer, alpha, beta);
       value = Math.min(value, evalScore);
       beta = Math.min(beta, value);
-      if (alpha >= beta) break; // Alpha-beta prune
+      if (alpha >= beta) break; 
     }
     return value;
   }
 }
 
-// API endpoint for the Sungka Bot
 app.post("/sungka-bot", (req, res) => {
   const { pits, stores, player, level } = req.body;
   
-  // Basic input validation
   if (!Array.isArray(pits) || !Array.isArray(stores) || typeof player !== "number") {
     return res.status(400).json({ error: "Invalid request body" });
   }
@@ -229,7 +222,6 @@ app.post("/sungka-bot", (req, res) => {
       break;
 
     default:
-      // Fallback for unknown levels
       chosenMove = validMoves[Math.floor(Math.random() * validMoves.length)];
       break;
   }
@@ -237,7 +229,7 @@ app.post("/sungka-bot", (req, res) => {
   return res.json({ move: chosenMove });
 });
 
-// Start server
+
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Sungka Bot API listening on http://localhost:${PORT}`);

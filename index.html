@@ -8,6 +8,46 @@
 </head>
 <body>
   
+  <!-- Game Rules Modal -->
+  <div id="rulesModal" class="modal">
+    <div class="modal-content">
+      <h2>Sungka Game Rules</h2>
+      <p>Sungka is a traditional Filipino mancala game. The objective is to capture as many shells as possible into your "home" (store) before any player clears their side of the board.</p>
+      
+      <h3>Setup:</h3>
+      <ul>
+        <li>The board has two rows of seven small pits, and two larger "home" pits (stores) at either end.</li>
+        <li>Each of the 14 small pits starts with 7 shells. The large pits are initially empty.</li>
+        <li>Player 1 controls the bottom row of pits and the right-hand store. Player 2 (or Bot) controls the top row of pits and the left-hand store.</li>
+      </ul>
+
+      <h3>Gameplay:</h3>
+      <ol>
+        <li>On your turn, choose any pit on your side of the board that contains shells.</li>
+        <li>Pick up all the shells from that pit.</li>
+        <li>Starting from the next pit to the right of the one you picked from, drop one shell into each successive pit, moving counter-clockwise around the board.</li>
+        <li>You can drop shells into your own store, but **not** into your opponent's store. If you reach your opponent's store, skip it and continue to the next pit.</li>
+      </ol>
+
+      <h3>Special Moves:</h3>
+      <ul>
+        <li><strong>Extra Turn:</strong> If your last shell lands in your own store, you get to take another turn immediately.</li>
+        <li><strong>Capture:</strong> If your last shell lands in an empty pit on your own side of the board, and the opposite pit on your opponent's side contains shells, you capture all the shells from your opponent's opposite pit (as well as the one shell you just dropped). All captured shells go into your store.</li>
+      </ul>
+
+      <h3>End of Game:</h3>
+      <ul>
+        <li>The game ends when all the pits on one player's side are empty.</li>
+        <li>Any remaining shells in the pits on the other player's side are moved to that player's store.</li>
+        <li>The player with the most shells in their store wins!</li>
+      </ul>
+      
+      <button id="startGameBtn">Start Game</button>
+    </div>
+  </div>
+
+    <!-- Game Container (Initially hidden) -->
+  <div id="gameContainer" class="hidden">
   <div class="info">
     <p>Current player: <span id="current">Player 1</span></p>
 
